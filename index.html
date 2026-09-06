@@ -74,7 +74,7 @@ nav.scrolled{
 /* ── HERO ── */
 .hero{
   min-height:100vh;display:flex;flex-direction:column;
-  justify-content:flex-end;padding:8rem 4rem 16rem;
+  justify-content:center;padding:0 4rem;
   position:relative;overflow:hidden;
 }
 .hero-bg{
@@ -95,10 +95,11 @@ nav.scrolled{
 
 .hero h1{
   font-family:'Cormorant Garamond',serif;
-  font-size:clamp(3.5rem,8vw,7.5rem);
+  font-size:clamp(2.8rem,6vw,5.5rem);
   font-weight:500;line-height:1.05;
   letter-spacing:-.02em;color:var(--txt);
   max-width:900px;
+  margin-top:-4rem;
   opacity:0;transform:translateY(24px);transition:opacity 1s .4s,transform 1s .4s;
 }
 .hero h1.visible{opacity:1;transform:translateY(0);}
