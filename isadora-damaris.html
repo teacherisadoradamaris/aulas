@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Isadora Damaris — Professora de Inglês</title>
+<link rel="icon" href="imagem/favicon.ijpg" />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --bege:#F6F1E9;
+  --bege2:#EDE6D9;
+  --verde:#3D6B4F;
+  --verde-claro:#C8DECE;
+  --lilas:#8B7BB8;
+  --lilas-claro:#E4DFF5;
+  --txt:#1C1915;
+  --txt2:#5A534A;
+  --txt3:#9C9288;
+  --white:#FDFAF5;
+}
+
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:var(--bege);color:var(--txt);overflow-x:hidden;}
+
+/* ── CURSOR ── */
+.cursor{
+  position:fixed;width:8px;height:8px;background:var(--verde);border-radius:50%;
+  pointer-events:none;z-index:9999;transform:translate(-50%,-50%);
+  transition:transform .1s,width .3s,height .3s,background .3s;
+}
+.cursor-ring{
+  position:fixed;width:36px;height:36px;border:1px solid var(--lilas);border-radius:50%;
+  pointer-events:none;z-index:9998;transform:translate(-50%,-50%);
+  transition:transform .12s ease-out,width .3s,height .3s,opacity .3s;
+  opacity:.6;
+}
+.cursor.hover{width:0;height:0;}
+.cursor-ring.hover{width:60px;height:60px;opacity:.2;}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.5rem 4rem;
+  transition:background .4s,backdrop-filter .4s,border-bottom .4s;
+}
+nav.scrolled{
+  background:rgba(246,241,233,.92);backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--bege2);
+}
+.nav-logo{
+  font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;
+  color:var(--txt);letter-spacing:.05em;text-decoration:none;
+}
+.nav-logo span{color:inherit;}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{
+  font-size:.78rem;letter-spacing:.1em;color:var(--txt2);
+  text-decoration:none;font-weight:500;transition:color .2s;
+  text-transform:uppercase;
+}
+.nav-links a:hover{color:var(--verde);}
+.nav-cta{
+  font-size:.78rem;letter-spacing:.08em;font-weight:500;
+  background:var(--verde);color:white;padding:.6rem 1.4rem;
+  border-radius:100px;text-decoration:none;text-transform:uppercase;
+  transition:background .2s,transform .15s;
+}
+.nav-cta:hover{background:#2d5239;transform:translateY(-1px);}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:flex-end;padding:0 4rem 6rem;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 80% 60% at 80% 40%, var(--lilas-claro) 0%, transparent 60%),
+             radial-gradient(ellipse 60% 50% at 10% 80%, var(--verde-claro) 0%, transparent 55%);
+  opacity:0;transition:opacity 1.2s ease;
+}
+.hero-bg.visible{opacity:1;}
+
+.hero-eyebrow{
+  font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--lilas);font-weight:500;
+  margin-bottom:1.8rem;
+  opacity:0;transform:translateY(16px);transition:opacity .8s .2s,transform .8s .2s;
+}
+.hero-eyebrow.visible{opacity:1;transform:translateY(0);}
+
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(3.5rem,8vw,7.5rem);
+  font-weight:500;line-height:1.05;
+  letter-spacing:-.02em;color:var(--txt);
+  max-width:900px;
+  opacity:0;transform:translateY(24px);transition:opacity 1s .4s,transform 1s .4s;
+}
+.hero h1.visible{opacity:1;transform:translateY(0);}
+.hero h1 em{font-style:italic;color:var(--verde);}
+
+.hero-sub{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-top:3rem;
+  opacity:0;transform:translateY(16px);transition:opacity .8s .8s,transform .8s .8s;
+}
+.hero-sub.visible{opacity:1;transform:translateY(0);}
+
+.hero-desc{
+  font-size:1rem;color:var(--txt2);max-width:420px;
+  line-height:1.8;font-weight:300;
+}
+
+.hero-scroll{
+  font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--txt3);display:flex;align-items:center;gap:.8rem;
+  text-decoration:none;
+}
+.hero-scroll-line{
+  width:40px;height:1px;background:var(--txt3);
+  display:inline-block;
+  animation:scrollline 2s ease-in-out infinite;
+}
+@keyframes scrollline{0%,100%{width:40px;}50%{width:80px;}}
+
+/* ── SOBRE ── */
+#sobre{padding:10rem 4rem;background:var(--white);}
+.sobre-layout{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:6rem;align-items:start;max-width:1200px;margin:0 auto;
+}
+.sobre-foto-wrap{position:relative;}
+.sobre-foto{
+  width:100%;aspect-ratio:3/4;
+  background:var(--bege2);border-radius:2px;
+  overflow:hidden;position:relative;
+}
+.sobre-foto img{width:100%;height:100%;object-fit:cover;display:block;}
+.sobre-foto-placeholder{
+  width:100%;height:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:.8rem;
+  color:var(--txt3);
+}
+.sobre-foto-placeholder span{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;}
+.sobre-foto-dot{
+  position:absolute;bottom:-20px;right:-20px;
+  width:80px;height:80px;border-radius:50%;
+  background:var(--lilas-claro);z-index:-1;
+}
+.sobre-texto{padding-top:2rem;}
+.secao-label{
+  font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--lilas);font-weight:500;margin-bottom:1.5rem;display:block;
+}
+.sobre-texto h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,3.5vw,3rem);font-weight:500;
+  line-height:1.2;letter-spacing:-.01em;
+  margin-bottom:2rem;color:var(--txt);
+}
+.sobre-texto h2 em{font-style:italic;color:var(--verde);}
+.sobre-texto p{
+  color:var(--txt2);font-size:.95rem;line-height:1.85;
+  margin-bottom:1.3rem;font-weight:300;
+}
+
+
+/* ── METODOLOGIA ── */
+#metodologia{padding:10rem 4rem;background:var(--bege);}
+.metodo-wrap{max-width:1200px;margin:0 auto;}
+.metodo-header{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:4rem;align-items:end;margin-bottom:6rem;
+}
+.metodo-header h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,3.5vw,3.2rem);font-weight:500;
+  line-height:1.15;letter-spacing:-.01em;color:var(--txt);
+}
+.metodo-header h2 em{font-style:italic;color:var(--lilas);}
+.metodo-header p{color:var(--txt2);font-size:.95rem;line-height:1.85;font-weight:300;}
+
+.destaque-bloco{
+  background:var(--verde);color:white;
+  padding:3.5rem 4rem;border-radius:2px;
+  margin-bottom:4rem;
+  display:grid;grid-template-columns:auto 1fr;gap:3rem;align-items:center;
+}
+.destaque-bloco-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:5rem;font-weight:400;
+  opacity:.25;line-height:1;
+}
+.destaque-bloco h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.6rem;font-weight:500;font-style:italic;
+  margin-bottom:.8rem;line-height:1.3;
+}
+.destaque-bloco p{opacity:.82;font-size:.9rem;line-height:1.8;font-weight:300;}
+
+.pilares{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;background:var(--bege2);}
+.pilar{
+  background:var(--white);padding:2.5rem;
+  transition:background .3s;
+}
+.pilar:hover{background:var(--lilas-claro);}
+.pilar-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:2.5rem;font-weight:400;color:var(--lilas);
+  opacity:.4;margin-bottom:1.5rem;line-height:1;
+}
+.pilar h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.15rem;font-weight:500;
+  color:var(--txt);margin-bottom:.8rem;
+}
+.pilar p{font-size:.85rem;color:var(--txt2);line-height:1.75;font-weight:300;}
+
+/* ── FAQ ── */
+#faq{padding:10rem 4rem;background:var(--white);}
+.faq-wrap{max-width:800px;margin:0 auto;}
+.faq-header{margin-bottom:5rem;}
+.faq-header h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,3.5vw,3.2rem);font-weight:500;
+  line-height:1.15;letter-spacing:-.01em;color:var(--txt);
+  margin-bottom:1rem;
+}
+.faq-header h2 em{font-style:italic;color:var(--verde);}
+.faq-header p{color:var(--txt2);font-size:.95rem;font-weight:300;}
+
+.faq-item{border-top:1px solid var(--bege2);padding:0;}
+.faq-item:last-child{border-bottom:1px solid var(--bege2);}
+
+.faq-btn{
+  width:100%;display:flex;justify-content:space-between;align-items:center;
+  padding:1.8rem 0;background:none;border:none;cursor:pointer;text-align:left;gap:2rem;
+}
+.faq-q{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.2rem;font-weight:500;color:var(--txt);
+  line-height:1.3;transition:color .2s;
+}
+.faq-btn:hover .faq-q{color:var(--verde);}
+
+.faq-icon{
+  width:28px;height:28px;border:1px solid var(--bege2);border-radius:50%;
+  flex-shrink:0;display:flex;align-items:center;justify-content:center;
+  transition:background .3s,border-color .3s,transform .4s;
+  position:relative;
+}
+.faq-icon::before,.faq-icon::after{
+  content:'';position:absolute;background:var(--txt2);
+  transition:transform .4s,opacity .3s;
+}
+.faq-icon::before{width:10px;height:1px;}
+.faq-icon::after{width:1px;height:10px;}
+.faq-item.open .faq-icon{background:var(--verde);border-color:var(--verde);}
+.faq-item.open .faq-icon::before,.faq-item.open .faq-icon::after{background:white;}
+.faq-item.open .faq-icon::after{transform:rotate(90deg);opacity:0;}
+
+.faq-body{
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows .45s cubic-bezier(.4,0,.2,1);
+}
+.faq-item.open .faq-body{grid-template-rows:1fr;}
+.faq-inner{overflow:hidden;}
+.faq-inner p{
+  font-size:.9rem;color:var(--txt2);line-height:1.8;
+  padding-bottom:1.8rem;font-weight:300;
+}
+
+/* ── CONTATO ── */
+#contato{padding:10rem 4rem;background:var(--bege);}
+.contato-wrap{max-width:1200px;margin:0 auto;}
+.contato-grid{display:grid;grid-template-columns:1fr 1fr;gap:8rem;align-items:start;}
+
+.contato-info h2{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(2rem,3.5vw,3.2rem);font-weight:500;
+  line-height:1.15;letter-spacing:-.01em;color:var(--txt);
+  margin-bottom:1.5rem;
+}
+.contato-info h2 em{font-style:italic;color:var(--lilas);}
+.contato-info > p{
+  color:var(--txt2);font-size:.95rem;line-height:1.85;
+  font-weight:300;margin-bottom:3rem;
+}
+
+.contato-canais{display:flex;flex-direction:column;gap:.8rem;}
+.canal{
+  display:flex;align-items:center;gap:1.2rem;padding:1.2rem 1.5rem;
+  border:1px solid var(--bege2);background:var(--white);
+  border-radius:2px;text-decoration:none;
+  transition:border-color .25s,transform .2s,box-shadow .25s;
+}
+.canal:hover{border-color:var(--verde);transform:translateX(6px);box-shadow:4px 0 0 var(--verde);}
+.canal-label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--txt3);font-weight:500;margin-bottom:.2rem;}
+.canal-val{font-size:.9rem;color:var(--txt);font-weight:400;}
+
+/* FORM */
+.form-wrap{}
+.form-wrap h3{
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.5rem;font-weight:500;color:var(--txt);
+  margin-bottom:2.5rem;font-style:italic;
+}
+.campo{margin-bottom:1.8rem;position:relative;}
+.campo label{
+  display:block;font-size:.72rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--txt3);font-weight:500;
+  margin-bottom:.5rem;
+}
+.campo input,.campo select,.campo textarea{
+  width:100%;background:transparent;border:none;border-bottom:1px solid var(--bege2);
+  padding:.7rem 0;font-size:.95rem;color:var(--txt);font-family:'Inter',sans-serif;
+  font-weight:300;outline:none;transition:border-color .3s;
+  border-radius:0;appearance:none;
+}
+.campo input:focus,.campo select:focus,.campo textarea:focus{border-color:var(--verde);}
+.campo textarea{resize:none;min-height:80px;}
+.campo-line{
+  position:absolute;bottom:0;left:0;height:1px;background:var(--verde);
+  width:0;transition:width .4s cubic-bezier(.4,0,.2,1);
+}
+.campo input:focus ~ .campo-line,
+.campo select:focus ~ .campo-line,
+.campo textarea:focus ~ .campo-line{width:100%;}
+
+.form-submit{
+  display:inline-flex;align-items:center;gap:1rem;
+  background:none;border:none;cursor:pointer;padding:0;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.3rem;font-style:italic;color:var(--txt);
+  margin-top:1rem;transition:color .2s;
+}
+.form-submit:hover{color:var(--verde);}
+.submit-arrow{
+  width:48px;height:48px;border-radius:50%;background:var(--verde);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .3s,background .2s;
+}
+.form-submit:hover .submit-arrow{transform:translateX(4px);}
+.submit-arrow svg{fill:none;stroke:white;stroke-width:1.5;}
+
+.form-ok{
+  display:none;padding:3rem 0;
+  font-family:'Cormorant Garamond',serif;
+  font-size:1.4rem;font-style:italic;color:var(--verde);
+  line-height:1.5;
+}
+.form-err{font-size:.78rem;color:#b45309;margin-top:.3rem;display:none;}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--txt);color:rgba(255,255,255,.4);
+  padding:1.2rem 4rem;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:.72rem;letter-spacing:.06em;
+}
+footer strong{color:rgba(255,255,255,.7);font-weight:400;}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s;}
+.reveal.vis{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:.1s;}
+.reveal-delay-2{transition-delay:.2s;}
+.reveal-delay-3{transition-delay:.3s;}
+
+/* ── MOBILE ── */
+@media(max-width:900px){
+  nav{padding:1.2rem 1.5rem;}
+  .nav-links{display:none;}
+  .hero{padding:0 1.5rem 4rem;}
+  #sobre,#metodologia,#faq,#contato{padding:6rem 1.5rem;}
+  .sobre-layout,.metodo-header,.contato-grid{grid-template-columns:1fr;gap:3rem;}
+  .pilares{grid-template-columns:1fr;}
+  .destaque-bloco{grid-template-columns:1fr;padding:2.5rem;}
+  .destaque-bloco-num{font-size:3rem;}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cur"></div>
+<div class="cursor-ring" id="curR"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Isadora Damaris</a>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#metodologia">Metodologia</a></li>
+    <li><a href="#faq">Perguntas</a></li>
+    <li><a href="#contato">Contato</a></li>
+  </ul>
+  <a href="#contato" class="nav-cta">Agendar aula</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-eyebrow" id="eyebrow">Professora de inglês — aulas personalizadas</div>
+  <h1 id="heroH">
+    Inglês sem pressão,<br/>no seu <em>ritmo</em>.
+  </h1>
+  <div class="hero-sub" id="heroSub">
+    <p class="hero-desc">Para quem se sente travado ou está começando do zero — com paciência, método e sem julgamento.</p>
+    <a href="#sobre" class="hero-scroll">
+      <span class="hero-scroll-line"></span>
+      Saiba mais
+    </a>
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section id="sobre">
+  <div class="sobre-layout">
+    <div class="sobre-foto-wrap reveal">
+      <div class="sobre-foto">
+        <img src="imagem/foto-perfil.jpg" alt="Isadora Damaris" />
+      </div>
+      <div class="sobre-foto-dot"></div>
+    </div>
+    <div class="sobre-texto">
+      <span class="secao-label reveal">Sobre mim</span>
+      <h2 class="reveal reveal-delay-1">Paixão por idiomas,<br/><em>amor</em> por ensinar</h2>
+      <p class="reveal reveal-delay-2">Minha paixão pelo inglês começou cedo, muito influenciada pela música e pela cultura.</p>
+      <p class="reveal reveal-delay-2">Com o tempo, percebi que o inglês vai muito além do entretenimento: é uma ferramenta poderosa para impulsionar a carreira e abrir as portas do mundo — o passaporte para conhecer novas culturas, viajar com confiança e se conectar com pessoas de todos os lugares.</p>
+      <p class="reveal reveal-delay-3">Unir essa paixão ao meu amor antigo por ensinar foi um caminho natural. Não há nada mais gratificante do que ver a educação transformando vidas de forma prática.</p>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGIA -->
+<section id="metodologia">
+  <div class="metodo-wrap">
+    <div class="metodo-header">
+      <div>
+        <span class="secao-label reveal">Metodologia</span>
+        <h2 class="reveal reveal-delay-1">Português não é<br/><em>vilão</em> — é aliado</h2>
+      </div>
+      <p class="reveal reveal-delay-2">Meu método usa conceitos modernos muito aplicados na Europa, como a Tradução Pedagógica e a Análise Contrastiva. Em vez de proibir o português, usamos ele como ponte — trazendo clareza imediata e acelerando o aprendizado.</p>
+    </div>
+
+    <div class="destaque-bloco reveal">
+      <div class="destaque-bloco-num">01</div>
+      <div>
+        <h3>Tradução Pedagógica &amp; Análise Contrastiva</h3>
+        <p>Fazemos paralelos inteligentes entre a lógica do seu idioma e o inglês. Isso elimina o "chute às cegas" e acelera o entendimento — sem sufocar você com imersão forçada antes de estar pronto.</p>
+      </div>
+    </div>
+
+    <div class="pilares reveal">
+      <div class="pilar">
+        <div class="pilar-num">01</div>
+        <h3>Personalização total</h3>
+        <p>Conteúdo 100% moldado para a sua realidade — viagens, reuniões de trabalho ou conversação do dia a dia.</p>
+      </div>
+      <div class="pilar">
+        <div class="pilar-num">02</div>
+        <h3>Desenvolvimento completo</h3>
+        <p>Trabalhamos de forma integrada as quatro habilidades: fala, escuta, leitura e escrita — além de treinar a mente para pensar no idioma.</p>
+      </div>
+      <div class="pilar">
+        <div class="pilar-num">03</div>
+        <h3>Ambiente sem pressão</h3>
+        <p>O ritmo é o seu. Errar faz parte do processo — cada aula é um espaço seguro, leve e paciente para você ganhar confiança.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="faq-wrap">
+    <div class="faq-header reveal">
+      <span class="secao-label">Perguntas frequentes</span>
+      <h2>Tem alguma <em>dúvida?</em></h2>
+      <p>Respondemos as perguntas mais comuns sobre as aulas.</p>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-btn" aria-expanded="false">
+        <span class="faq-q">Preciso comprar livros ou materiais de estudo?</span>
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body"><div class="faq-inner"><p>Não. Todos os materiais utilizados nas aulas são 100% personalizados e preparados por mim para você. Não é necessário gastar com livros caros ou apostilas adicionais.</p></div></div>
+    </div>
+
+    <div class="faq-item reveal reveal-delay-1">
+      <button class="faq-btn" aria-expanded="false">
+        <span class="faq-q">Onde as aulas acontecem?</span>
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body"><div class="faq-inner"><p>As aulas regulares são 100% online e ao vivo, realizadas pelo Google Meet. Para o público infantil, ofereço também a modalidade presencial domiciliar — sujeita a consulta de disponibilidade de horários e região.</p></div></div>
+    </div>
+
+    <div class="faq-item reveal reveal-delay-2">
+      <button class="faq-btn" aria-expanded="false">
+        <span class="faq-q">Como funcionam os horários e a frequência das aulas?</span>
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body"><div class="faq-inner"><p>Os horários e o formato são ajustados de acordo com o plano que melhor se encaixa na sua rotina e objetivos. Vamos conversar sobre isso na nossa primeira aula!</p></div></div>
+    </div>
+
+    <div class="faq-item reveal reveal-delay-3">
+      <button class="faq-btn" aria-expanded="false">
+        <span class="faq-q">Quais são as formas de pagamento?</span>
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body"><div class="faq-inner"><p>As formas de pagamento disponíveis para os pacotes e mensalidades são Pix e transferência bancária.</p></div></div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-btn" aria-expanded="false">
+        <span class="faq-q">Nunca estudei inglês. Consigo acompanhar?</span>
+        <span class="faq-icon" aria-hidden="true"></span>
+      </button>
+      <div class="faq-body"><div class="faq-inner"><p>Com certeza. Minhas aulas são feitas justamente para quem está do zero ou se sente travado. Vamos no seu ritmo, com muita paciência, em um ambiente leve e sem julgamentos.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section id="contato">
+  <div class="contato-wrap">
+    <div class="contato-grid">
+      <div class="contato-info">
+        <span class="secao-label reveal">Contato</span>
+        <h2 class="reveal reveal-delay-1">Vamos dar o<br/><em>primeiro passo?</em></h2>
+        <p class="reveal reveal-delay-2">A primeira conversa é gratuita e sem compromisso. Me chame e vamos falar sobre seus objetivos.</p>
+
+        <div class="contato-canais reveal reveal-delay-3">
+          <a href="https://wa.me/5533984044311" class="canal" target="_blank" rel="noopener">
+            <div>
+              <div class="canal-label">WhatsApp</div>
+              <div class="canal-val">(33) 98404-4311</div>
+            </div>
+          </a>
+          <a href="https://instagram.com/teacher.isadoradamaris" class="canal" target="_blank" rel="noopener">
+            <div>
+              <div class="canal-label">Instagram</div>
+              <div class="canal-val">@teacher.isadoradamaris</div>
+            </div>
+          </a>
+          <a href="mailto:teacher.isadoradamaris@gmail.com" class="canal">
+            <div>
+              <div class="canal-label">E-mail</div>
+              <div class="canal-val">teacher.isadoradamaris@gmail.com</div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <div class="form-wrap reveal reveal-delay-2">
+        <h3>Manda uma mensagem</h3>
+        <div id="formEl">
+          <div class="campo">
+            <label for="nome">Seu nome</label>
+            <input type="text" id="nome" autocomplete="name" />
+            <div class="campo-line"></div>
+            <div class="form-err" id="err-nome">Por favor, informe seu nome.</div>
+          </div>
+          <div class="campo">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" autocomplete="email" />
+            <div class="campo-line"></div>
+            <div class="form-err" id="err-email">Por favor, informe um e-mail válido.</div>
+          </div>
+          <div class="campo">
+            <label for="perfil">Seu perfil</label>
+            <select id="perfil">
+              <option value="">Selecione...</option>
+              <option>Adulto — para mim</option>
+              <option>Criança ou adolescente — para meu filho(a)</option>
+              <option>Ambos</option>
+            </select>
+            <div class="campo-line"></div>
+          </div>
+          <div class="campo">
+            <label for="msg">Qual é o seu objetivo?</label>
+            <textarea id="msg" rows="3"></textarea>
+            <div class="campo-line"></div>
+          </div>
+          <button class="form-submit" id="submitBtn" type="button">
+            Enviar mensagem
+            <span class="submit-arrow">
+              <svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+          </button>
+        </div>
+        <div class="form-ok" id="formOk">
+          Mensagem enviada.<br/>Em breve entro em contato com você.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Isadora Damaris</strong>
+  <span>Professora de inglês — aulas personalizadas</span>
+</footer>
+
+<script>
+// ── Cursor personalizado ──
+const cur = document.getElementById('cur');
+const curR = document.getElementById('curR');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(animRing);}
+animRing();
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{cur.classList.add('hover');curR.classList.add('hover');});
+  el.addEventListener('mouseleave',()=>{cur.classList.remove('hover');curR.classList.remove('hover');});
+});
+
+// ── Nav scroll ──
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{nav.classList.toggle('scrolled',scrollY>60);});
+
+// ── Hero entrada ──
+window.addEventListener('load',()=>{
+  setTimeout(()=>document.getElementById('heroBg').classList.add('visible'),100);
+  setTimeout(()=>document.getElementById('eyebrow').classList.add('visible'),300);
+  setTimeout(()=>document.getElementById('heroH').classList.add('visible'),500);
+  setTimeout(()=>document.getElementById('heroSub').classList.add('visible'),800);
+});
+
+// ── Reveal on scroll ──
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');io.unobserve(e.target);}});
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// ── FAQ ──
+document.querySelectorAll('.faq-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const item=btn.closest('.faq-item');
+    const open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+    if(!open)item.classList.add('open');
+    btn.setAttribute('aria-expanded',!open);
+  });
+});
+
+// ── Form ──
+document.getElementById('submitBtn').addEventListener('click',()=>{
+  const nome=document.getElementById('nome').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const errNome=document.getElementById('err-nome');
+  const errEmail=document.getElementById('err-email');
+  let ok=true;
+
+  errNome.style.display='none';
+  errEmail.style.display='none';
+
+  if(!nome){errNome.style.display='block';ok=false;}
+  if(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){errEmail.style.display='block';ok=false;}
+
+  if(ok){
+    const perfil=document.getElementById('perfil').value||'Não informado';
+    const msg=document.getElementById('msg').value.trim()||'Não informado';
+    const texto=`Olá, Isadora! Vim pelo site e gostaria de saber mais sobre as aulas.\n\n*Nome:* ${nome}\n*E-mail:* ${email}\n*Perfil:* ${perfil}\n*Objetivo:* ${msg}`;
+    const url='https://wa.me/5533984044311?text='+encodeURIComponent(texto);
+    document.getElementById('formEl').style.display='none';
+    document.getElementById('formOk').style.display='block';
+    setTimeout(()=>window.open(url,'_blank'),600);
+  }
+});
+</script>
+</body>
+</html>
