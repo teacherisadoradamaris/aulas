@@ -74,7 +74,7 @@ nav.scrolled{
 /* ── HERO ── */
 .hero{
   min-height:100vh;display:flex;flex-direction:column;
-  justify-content:center;padding:0 4rem;
+  justify-content:flex-end;padding:8rem 4rem 16rem;
   position:relative;overflow:hidden;
 }
 .hero-bg{
@@ -95,18 +95,17 @@ nav.scrolled{
 
 .hero h1{
   font-family:'Cormorant Garamond',serif;
-  font-size:clamp(2.8rem,6vw,5.5rem);
+  font-size:clamp(3.5rem,8vw,7.5rem);
   font-weight:500;line-height:1.05;
   letter-spacing:-.02em;color:var(--txt);
   max-width:900px;
-  margin-top:-4rem;
   opacity:0;transform:translateY(24px);transition:opacity 1s .4s,transform 1s .4s;
 }
 .hero h1.visible{opacity:1;transform:translateY(0);}
 .hero h1 em{font-style:italic;color:var(--verde);}
 
 .hero-sub{
-  display:flex;justify-content:space-between;align-items:flex-end;
+  display:flex;align-items:flex-end;justify-content:space-between;
   margin-top:3rem;
   opacity:0;transform:translateY(16px);transition:opacity .8s .8s,transform .8s .8s;
 }
@@ -412,7 +411,9 @@ footer strong{color:rgba(255,255,255,.7);font-weight:400;}
   </h1>
   <div class="hero-sub" id="heroSub">
     <p class="hero-desc">Para quem se sente travado ou está começando do zero — com paciência, método e sem julgamento.</p>
-    <a href="#sobre" class="hero-scroll">
+      <div class="hero-sub" id="heroSub">
+    <p class="hero-desc">Para quem se sente travado ou está começando do zero — com paciência, método e sem julgamento.</p>
+    <a href="#sobre" class="hero-scroll" style="margin-top:2rem;">
       <span class="hero-scroll-line"></span>
       Saiba mais
     </a>
