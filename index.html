@@ -411,10 +411,6 @@ footer strong{color:rgba(255,255,255,.7);font-weight:400;}
   </h1>
   <div class="hero-sub" id="heroSub">
     <p class="hero-desc">Para quem se sente travado ou está começando do zero — com paciência, método e sem julgamento.</p>
-    <a href="#sobre" class="hero-scroll">
-      <span class="hero-scroll-line"></span>
-      Saiba mais
-    </a>
   </div>
 </section>
 
@@ -614,13 +610,18 @@ footer strong{color:rgba(255,255,255,.7);font-weight:400;}
 const cur = document.getElementById('cur');
 const curR = document.getElementById('curR');
 let mx=0,my=0,rx=0,ry=0;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(animRing);}
-animRing();
-document.querySelectorAll('a,button').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{cur.classList.add('hover');curR.classList.add('hover');});
-  el.addEventListener('mouseleave',()=>{cur.classList.remove('hover');curR.classList.remove('hover');});
-});
+if(window.matchMedia('(pointer:fine)').matches){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+  function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;curR.style.left=rx+'px';curR.style.top=ry+'px';requestAnimationFrame(animRing);}
+  animRing();
+  document.querySelectorAll('a,button').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{cur.classList.add('hover');curR.classList.add('hover');});
+    el.addEventListener('mouseleave',()=>{cur.classList.remove('hover');curR.classList.remove('hover');});
+  });
+} else {
+  cur.style.display='none';
+  curR.style.display='none';
+}
 
 // ── Nav scroll ──
 const nav=document.getElementById('nav');
